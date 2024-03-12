@@ -3,6 +3,8 @@ import random
 import threading
 import time
 
+#Eventual Consistency
+
 class EventualConsistencyKVStore(KeyValueStore):
     def __init__(self, replica):
         super().__init__()
@@ -35,3 +37,40 @@ class EventualConsistencyKVStore(KeyValueStore):
                 send(target_replica, data)
 
                 self.pending_updates[target_replica] = []
+                
+#Linear Consistency      
+class LinearConsistencyKVStore(KeyValueStore):
+    def __init__(self, replica):
+        super().__init__()
+        self.replica = replica
+
+    def set(self, key, value):
+        super().set(key, value)
+
+        # Keep track of which replicas have acknowledged the update
+        acknowledgements = []
+
+        # Send new key-value pair to each replica
+        for address in self.replica.replica_addresses:
+            if address != (self.replica.host, self.replica.port):
+                data = f"update {key} {value}"
+                acknowledgements.append(self.send_updates(address, data))
+
+        # Wait for all replicas to acknowledge the update
+        for acknowledgement in acknowledgements:
+            acknowledgement.wait()
+
+        return "Key-value pair added"
+
+    # Send updates to the target replica
+    def send_updates(self, target_replica, data):
+        acknowledge_event = threading.Event()
+
+        # Set the acknowledge event when the acknowledgement is received
+        def callback():
+            simulate_latency()
+            acknowledge_event.set()
+
+        send(target_replica, data, callback=callback)
+
+        return acknowledge_event
