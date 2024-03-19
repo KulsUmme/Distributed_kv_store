@@ -1,4 +1,4 @@
-import requests # Note, you may need to install this package via pip (or pip3)
+import requests 
 
 localhost = "localhost"
 timeout = 5
