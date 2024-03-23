@@ -2,7 +2,6 @@
 
 This is a Key-Value Store implemented in the Python Flask framework. This KV-Store is scalable and replicated. In this project, we distribute keys accross nodes according to the replication factor and number of shards in the view of the system. For example, a system of four nodes with a replication factor of 2 produces two shards: each shard contains two replicas and the key's are distributed accross shards using consistent hashing. 
 
-
 ### 
 
 We will call the partitions that we separate keys into as **shards**, where the keys

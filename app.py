@@ -186,7 +186,7 @@ def logEvent(operation, subject_key, value_after_operation):
     print("\tNEW EVENT:  ", flush=True)
     print("\t\t", event, flush=True)
 
-    # return event
+
     return event
 
 def getJSONObjFromDict(json_response):

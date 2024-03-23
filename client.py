@@ -1,4 +1,4 @@
-import requests 
+import requests
 
 localhost = "localhost"
 timeout = 5
@@ -80,7 +80,6 @@ class Client():
         return self.formatResult(result)
 
     # this just turns the requests result object into a simplified json object
-    # containing only fields I care about
     def formatResult(self, result):
         status_code = result.status_code
 
